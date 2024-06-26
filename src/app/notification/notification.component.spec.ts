@@ -11,7 +11,8 @@ describe('NotificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, NotificationComponent],
+      imports: [HttpClientTestingModule],
+      declarations: [NotificationComponent],
       providers: [NotificationService]
     }).compileComponents();
 
@@ -27,19 +28,19 @@ describe('NotificationComponent', () => {
 
   it('should fetch notifications on init', () => {
     const notifications = [
-      { id: 1, content: 'New ticket created' },
-      { id: 2, content: 'Ticket assigned to you' }
+      { ticketID: 1, status: 'Nuevo ticket creado' },
+      { ticketID: 2, status: 'Ticket asignado a usted' }
     ];
-    spyOn(notificationService, 'getNotifications').and.returnValue(of(notifications));
+    spyOn(notificationService, 'getTickets').and.returnValue(of(notifications));
     component.ngOnInit();
     expect(component.notifications.length).toBe(2);
-    expect(component.notifications).toEqual(notifications.map(notification => ({ ...notification, read: false })));
+    expect(component.notifications[0].content).toEqual('Ticket Nuevo ticket creado');
   });
 
   it('should mark notifications as read', () => {
     spyOn(notificationService, 'markAsRead').and.returnValue(of(null));
     component.notifications = [
-      { id: 1, content: 'New ticket created', read: false }
+      { id: 1, content: 'Nuevo ticket creado', read: false }
     ];
     component.markAsRead(1);
     expect(notificationService.markAsRead).toHaveBeenCalledWith(1);
@@ -54,4 +55,3 @@ describe('NotificationComponent', () => {
     expect(component.dropdownVisible).toBeFalse();
   });
 });
-

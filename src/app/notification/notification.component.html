@@ -1,16 +1,13 @@
-<div class="relative" (click)="toggleDropdown()">
-  <span class="bell-icon">🔔</span>
-  <span *ngIf="notifications.length > 0" class="badge">{{
-    notifications.length
-  }}</span>
-
-  <div *ngIf="dropdownVisible" class="dropdown">
-    <div *ngFor="let notification of notifications">
-      <div class="dropdown-item" [class.read]="notification.read">
+<div class="relative">
+    <div class="bell-icon" (click)="toggleDropdown()">
+      🔔
+      <span class="badge" *ngIf="notifications.length > 0">{{ notifications.length }}</span>
+    </div>
+    <div *ngIf="dropdownVisible" class="dropdown">
+      <div *ngFor="let notification of notifications" class="dropdown-item">
         {{ notification.content }}
-        <button (click)="markAsRead(notification.id)">Mark as read</button>
       </div>
+      <button (click)="clearNotifications()">Clear</button>
     </div>
   </div>
-</div>
-
+  

@@ -1,44 +1,43 @@
-import { Component, OnInit } from "@angular/core";
-import { NotificationService } from "../core/services/notification.service";
-import { CommonModule } from "@angular/common";
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NotificationService } from '../core/services/notification.service';
 
 @Component({
-	selector: "app-notification",
-	standalone: true,
-	imports: [CommonModule],
-	templateUrl: "./notification.component.html",
-	styleUrls: ["./notification.component.css"],
+  selector: 'app-notification',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './notification.component.html',
+  styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
-	notifications: { id: number; content: string; read: boolean }[] = [];
-	dropdownVisible = false;
+  notifications: { id: number, content: string, read: boolean }[] = [];
+  dropdownVisible = false;
 
-	constructor(private notificationService: NotificationService) {}
+  constructor(private notificationService: NotificationService) {}
 
-	ngOnInit(): void {
-		this.notificationService
-			.getNotifications()
-			.subscribe((notifications: any[]) => {
-				this.notifications = notifications.map((notification) => ({
-					...notification,
-					read: false,
-				}));
-			});
-	}
+  ngOnInit(): void {
+    this.notificationService.getTickets().subscribe((tickets: any[]) => {
+      this.notifications = tickets.map(ticket => ({
+        id: ticket.ticketID,
+        content: ticket.contenido,
+        read: false
+      }));
+    });
+  }
 
-	markAsRead(id: number): void {
-		const notification = this.notifications.find((n) => n.id === id);
-		if (notification) {
-			notification.read = true;
-			this.notificationService.markAsRead(id).subscribe();
-		}
-	}
+  markAsRead(id: number): void {
+    const notification = this.notifications.find(n => n.id === id);
+    if (notification) {
+      notification.read = true;
+      this.notificationService.markAsRead(id).subscribe();
+    }
+  }
 
-	toggleDropdown(): void {
-		this.dropdownVisible = !this.dropdownVisible;
-	}
+  toggleDropdown(): void {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
 
-	clearNotifications(): void {
-		this.notifications = [];
-	}
+  clearNotifications(): void {
+    this.notifications = [];
+  }
 }
