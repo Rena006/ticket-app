@@ -20,6 +20,7 @@ export class MyTicketsComponent {
 		this.getTicketsByAuthor();
 		this.getTicketsByResponsable();
 	}
+
 	getTicketsByResponsable() {
 		this.ticketServices.getTicketsByResponsable().subscribe({
 			next: (data) => {
@@ -28,6 +29,7 @@ export class MyTicketsComponent {
 			},
 		});
 	}
+
 	getTicketsByAuthor() {
 		this.ticketServices.getTicketsByAuthor().subscribe({
 			next: (data) => {
@@ -42,6 +44,7 @@ export class MyTicketsComponent {
 			next: () => {
 				alert("Ticket cerrado exitosamente");
 				this.getTicketsByAuthor();
+				this.getTicketsByResponsable();
 			},
 		});
 	}

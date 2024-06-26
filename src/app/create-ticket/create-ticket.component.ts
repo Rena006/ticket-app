@@ -25,7 +25,7 @@ export class CreateTicketComponent implements OnInit {
 			contenido: ["", Validators.required],
 			categoria: ["Soporte", Validators.required],
 			prioridad: [1, Validators.required],
-			responsable: [""],
+			responsable: [0],
 		});
 	}
 
